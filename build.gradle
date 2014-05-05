@@ -1,0 +1,74 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+
+version = '1.0'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testRuntime
+    }
+}
+
+/**
+ * currently cucumber task doesn't work in combination with junit @BeforeClass Annotations for starting and stopping
+ * the tomcat instance. Run "RunCukesTest" instead (junit cucumber runner).
+ */
+task cucumber() {
+    dependsOn assemble
+    doLast {
+        javaexec {
+            main = "cucumber.api.cli.Main"
+            classpath = configurations.cucumberRuntime
+            args = ['-f', 'pretty', '--glue', 'src/test/groovy', 'src/test/resources']
+
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Groovy library for groovy building!
+    groovy 'org.codehaus.groovy:groovy-all:2.1.6'
+
+    compile 'javax.servlet:javax.servlet-api:3.0.1'
+
+    compile 'org.springframework:spring-context:4.0.3.RELEASE'
+    compile 'org.springframework.data:spring-data-jpa:1.4.3.RELEASE'
+    compile 'org.springframework:spring-web:4.0.3.RELEASE'
+    compile 'org.springframework:spring-webmvc:4.0.3.RELEASE'
+
+
+    compile 'com.fasterxml.jackson.core:jackson-core:2.3.0'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.3.0'
+
+    compile 'org.apache.httpcomponents:httpclient:4.3.2'
+
+
+    compile 'org.apache.tomcat.embed:tomcat-embed-core:8.0.5'
+    compile 'org.apache.tomcat.embed:tomcat-embed-logging-juli:8.0.5'
+    compile 'org.apache.tomcat.embed:tomcat-embed-jasper:8.0.5'
+
+    /*
+   In order to work around a really flagrant bug ( http://issues.gradle.org/browse/GRADLE-732 )
+   You have to create a configuration that includes the jar.archivePath (the jar.archivePath is created by the java plugin)
+   and give it the same name as the cucumberRuntime configuration, or name it something different and have the cucumberRuntime
+   configuration extend from it as well.
+
+   VERY ANNOYING BUG
+    */
+    cucumberRuntime files("${jar.archivePath}")
+
+
+
+    testCompile 'junit:junit:4.11'
+    testCompile 'info.cukes:cucumber-junit:1.1.5'
+    testCompile 'info.cukes:cucumber-groovy:1.1.5'
+    testCompile 'info.cukes:cucumber-spring:1.1.5'
+}
