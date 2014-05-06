@@ -1,6 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'groovy'
-apply plugin: 'idea'
+//apply plugin: 'idea'
 
 version = '1.0'
 
@@ -8,52 +8,70 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 configurations {
-    cucumberRuntime {
-        extendsFrom testRuntime
-    }
+//    cucumberRuntime {
+//        extendsFrom testRuntime
+//    }
 }
 
 /**
  * currently cucumber task doesn't work in combination with junit @BeforeClass Annotations for starting and stopping
  * the tomcat instance. Run "RunCukesTest" instead (junit cucumber runner).
  */
-task cucumber() {
-    dependsOn assemble
-    doLast {
-        javaexec {
-            main = "cucumber.api.cli.Main"
-            classpath = configurations.cucumberRuntime
-            args = ['-f', 'pretty', '--glue', 'src/test/groovy', 'src/test/resources']
-
-        }
-    }
-}
+//task cucumber() {
+//    dependsOn assemble
+//    doLast {
+//        javaexec {
+//            main = "cucumber.api.cli.Main"
+//            classpath = configurations.cucumberRuntime
+//            args = ['-f', 'pretty', '--glue', 'src/test/groovy', 'src/test/resources']
+//
+//        }
+//    }
+//}
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://repository.jboss.org/nexus/content/groups/public-jboss/"
+    }
 }
 
 dependencies {
     // Groovy library for groovy building!
-    groovy 'org.codehaus.groovy:groovy-all:2.1.6'
+    compile 'org.codehaus.groovy:groovy-all:2.1.6'
 
     compile 'javax.servlet:javax.servlet-api:3.0.1'
 
     compile 'org.springframework:spring-context:4.0.3.RELEASE'
-    compile 'org.springframework.data:spring-data-jpa:1.4.3.RELEASE'
     compile 'org.springframework:spring-web:4.0.3.RELEASE'
     compile 'org.springframework:spring-webmvc:4.0.3.RELEASE'
+    compile 'org.springframework:spring-orm:4.0.3.RELEASE'
+    compile 'org.springframework:spring-test:4.0.3.RELEASE'
 
+    compile 'org.springframework.data:spring-data-jpa:1.5.2.RELEASE'
+
+//    compile 'org.hibernate:hibernate-core:4.3.5.Final'
+
+    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final'
+    compile 'org.hibernate:hibernate-entitymanager:4.0.1.Final'
 
     compile 'com.fasterxml.jackson.core:jackson-core:2.3.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.3.0'
 
     compile 'org.apache.httpcomponents:httpclient:4.3.2'
 
-
     compile 'org.apache.tomcat.embed:tomcat-embed-core:8.0.5'
     compile 'org.apache.tomcat.embed:tomcat-embed-logging-juli:8.0.5'
     compile 'org.apache.tomcat.embed:tomcat-embed-jasper:8.0.5'
+
+    runtime 'org.aspectj:aspectjweaver:1.8.0'
+
+    runtime 'org.hsqldb:hsqldb:2.3.2'
+
+    compile 'org.slf4j:slf4j-api:1.7.7'
+    runtime 'org.slf4j:jcl-over-slf4j:1.7.7'
+    runtime 'org.slf4j:slf4j-log4j12:1.7.7'
+    runtime 'log4j:log4j:1.2.17'
 
     /*
    In order to work around a really flagrant bug ( http://issues.gradle.org/browse/GRADLE-732 )
@@ -63,9 +81,7 @@ dependencies {
 
    VERY ANNOYING BUG
     */
-    cucumberRuntime files("${jar.archivePath}")
-
-
+//    cucumberRuntime files("${jar.archivePath}")
 
     testCompile 'junit:junit:4.11'
     testCompile 'info.cukes:cucumber-junit:1.1.5'
