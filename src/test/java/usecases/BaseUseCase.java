@@ -15,6 +15,6 @@ public class BaseUseCase extends HttpUseCase<Map> {
 
     public void assertGetReturnValue() {
         get();
-        assertEquals("testValue", getResponse().get("testGet"));
+        assertEquals("testValue", getResponse().get("test"));
     }
 }
