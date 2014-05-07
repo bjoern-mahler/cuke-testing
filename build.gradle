@@ -70,8 +70,10 @@ dependencies {
 
     compile 'org.slf4j:slf4j-api:1.7.7'
     runtime 'org.slf4j:jcl-over-slf4j:1.7.7'
-    runtime 'org.slf4j:slf4j-log4j12:1.7.7'
-    runtime 'log4j:log4j:1.2.17'
+
+    compile 'ch.qos.logback:logback-classic:1.0.11'
+    compile 'ch.qos.logback:logback-core:1.0.11'
+
 
     /*
    In order to work around a really flagrant bug ( http://issues.gradle.org/browse/GRADLE-732 )
@@ -87,4 +89,5 @@ dependencies {
     testCompile 'info.cukes:cucumber-junit:1.1.5'
     testCompile 'info.cukes:cucumber-groovy:1.1.5'
     testCompile 'info.cukes:cucumber-spring:1.1.5'
+
 }
