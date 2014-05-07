@@ -4,11 +4,16 @@ package de.spinwork.datacuke.testutil;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 
 public class EmbeddedTomcat {
+
+    private static final Logger logger = LoggerFactory.getLogger(EmbeddedTomcat.class);
+
     protected static final String WEBAPP_DIRECTORY = "src/main/webapp";
     protected static final int TOMCAT_PORT = 8090;
 
@@ -17,7 +22,7 @@ public class EmbeddedTomcat {
     public void start() {
         try {
             String path = getWebappDirectory();
-            System.out.println("Starting tomcat on port " + TOMCAT_PORT + " on directory " + path);
+            logger.info("Starting tomcat on port {} in directory {}", TOMCAT_PORT, path);
             tomcat = new Tomcat();
             tomcat.setPort(TOMCAT_PORT);
             tomcat.setBaseDir(path);
