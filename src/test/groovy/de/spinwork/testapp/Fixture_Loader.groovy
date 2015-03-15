@@ -1,5 +1,6 @@
 package de.spinwork.testapp
 
+import cucumber.api.java.en.Then
 import de.spinwork.datacuke.Fixtures
 import usecases.BaseUseCase
 

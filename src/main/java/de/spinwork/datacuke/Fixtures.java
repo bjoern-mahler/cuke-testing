@@ -8,9 +8,9 @@ import java.util.Map;
 
 /**
  * Manages fixture data in an own Map, so you may add and read variables with different kinds of data you want to
- * share between implementation steps. The sharing is managed with the cucumber-glue scope.
+ * share between different implementation steps. The sharing is managed with the cucumber-glue scope.
  *
- * In Groovy cucumber steps you can use the static getLoader method for accessing the spring application context.
+ * In cucumber steps you can use the static getLoader method for accessing the spring application context.
  */
 @Component
 public class Fixtures {
